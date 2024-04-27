@@ -18,8 +18,20 @@ default_platform(:ios)
 platform :ios do
   desc "Description of what the lane does"
 lane :release do
+    time_stamp = Time.now.strftime("%Y%m%d-%H%M%S")
+
+    # Fetch the current version and build number from the project
+    project_version = get_version_number(xcodeproj: "/Users/datnguyenhuu/Documents/ProgramLearning/FoodReviews/FoodReviews.xcodeproj")
+
+    build_number = get_build_number(xcodeproj: "/Users/datnguyenhuu/Documents/ProgramLearning/FoodReviews/FoodReviews.xcodeproj")
+
+    # Define the name of the IPA file
+    ipa_name = "FoodReviews_#{project_version}_#{build_number}_#{time_stamp}.ipa"
 build_app(
 export_method: "ad-hoc",
+clean: true,
+output_directory: "/Users/datnguyenhuu/Documents/Output_IPA",
+output_name: ipa_name,
 export_options: {
       provisioningProfiles: { 
         "datnh.FoodReviews" => "Dis_Pro"
